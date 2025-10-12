@@ -1,0 +1,48 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
+        parent_map = {}
+        def build_parent_map(node):
+            q = deque([node])
+            while q:
+                curr = q.popleft()
+                if curr.left:
+                    parent_map[curr.left] = curr
+                    q.append(curr.left)
+                if curr.right:
+                    parent_map[curr.right] = curr
+                    q.append(curr.right)
+        build_parent_map(root)
+
+        def find_start(node):
+            if not node:
+                return None
+            if node.val == start:
+                return node
+            left = find_start(node.left)
+            if left:
+                return left
+            return find_start(node.right)
+
+        start_node = find_start(root)
+        visited = set()
+        q = deque([start_node])
+        visited.add(start_node)
+        time = 0
+
+        while q:
+            for _ in range(len(q)):
+                node = q.popleft()
+                for neighbor in (node.left, node.right, parent_map.get(node)):
+                    if neighbor and neighbor not in visited:
+                        visited.add(neighbor)
+                        q.append(neighbor)
+            if q:
+                time += 1
+
+        return time
