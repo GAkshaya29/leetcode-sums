@@ -1,0 +1,17 @@
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        # Creating a dictionary to group words by their sorted character sequence
+        d = defaultdict(list)
+        
+        # Iterating through each word in the input list
+        for word in strs:
+            # Sorting the characters in the word and using it as a key
+            sort_word = "".join(sorted(word))
+            # Appending the original word to the list corresponding to the sorted key
+            d[sort_word].append(word)
+        
+        # Preparing the final grouped list of anagrams
+        ans = []
+        for value in d.values():
+            ans.append(value)        
+        return ans
