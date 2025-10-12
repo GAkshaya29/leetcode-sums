@@ -1,0 +1,10 @@
+class Solution:
+    def diagonalSum(self, mat: List[List[int]]) -> int:
+        total_sum = 0
+        r = len(mat)
+        for i in range(r):
+            total_sum += mat[i][i]  
+            if i != r - i - 1: 
+                total_sum += mat[i][r - i - 1]
+        return total_sum
+
